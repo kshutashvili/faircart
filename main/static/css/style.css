@@ -1,0 +1,799 @@
+@font-face {
+    font-family: FreeSet; /* Гарнитура шрифта */
+    src: url(../fonts/freeset.ttf); /* Путь к файлу со шрифтом */
+   }
+ @import url(http://allfont.ru/allfont.css?fonts=freeset);
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+body{
+	background: #edf2f7;
+}
+
+a{
+	text-decoration: none;
+	color: inherit;
+}
+
+header{
+	position: relative;
+  	padding: 50px 16vw;
+  	background: #3d5972;
+}
+
+header .logo{
+	display: inline-block;
+
+  	position: relative;
+}
+
+header .logo img{
+  	max-width: 267px;
+
+}
+
+menu{
+	float: right;
+	display: inline-block;
+}
+
+menu .menu-elem{
+
+	color: #fff;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+	width: 110px;
+
+}
+
+menu .menu-elem:last-of-type{
+	margin-right: 0px;
+}
+
+.menu-elem .menu-name p{
+	font-family: FreeSet, Trebuchet;
+	font-size: 10pt;
+}
+
+
+
+.triangle-down{
+	z-index: 20;
+	left:0;
+	right:0;
+	bottom:-20px;
+	margin:auto;
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 20px 30px 0 30px;
+
+}
+
+
+header .triangle-down{
+
+	border-color: #3d5972 transparent transparent transparent;
+}
+
+
+#content{
+	margin-top: 60px;
+	font-size: 22pt;
+	text-align: center;
+  position: relative;
+  background: #edf2f7;
+}
+
+#content.cab-wrap{
+  padding: 0 15.73%;
+  padding-bottom: 80px;
+}
+#content .triangle-down{
+  border-color: #edf2f7 transparent transparent transparent;
+}
+#ti-frame{
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+#reg-frame, #log-frame{
+	position: relative;
+	margin:40px auto 65px auto;
+}
+
+#reg-frame{
+	width: 810px;
+}
+
+#reg-frame .back{
+	top:20px;
+	right: 40px;
+	position: absolute;
+	-webkit-transition: transform 0.6s ease-out 0s;
+    -moz-transition: transform 0.6s ease-out 0s;
+    -o-transition: transform 0.6s ease-out 0s;
+    transition: transform 0.6s ease-out 0s;
+}
+
+#reg-frame .back:hover{
+	transform: rotate(360deg);
+}
+
+#log-frame{
+	width: 440px;
+}
+
+#content #reg, #content #log{
+	padding: 34px 40px 0px 40px;
+	background: #fbfcfd;
+}
+
+#content #reg{
+	padding-bottom: 15px;
+}
+
+#content #log{
+	padding-bottom: 25px;
+}
+
+#transac{
+  position: relative;
+  background: url(../img/transac-back.png);
+  background-size: 100% 100%;
+  padding: 32px 18px;
+}
+
+#balance-info{
+  padding: 35px 0px;
+  background: #d6e3f1;
+}
+
+#balance-info .bal{
+  width: 430px;
+  margin: auto;
+  border-bottom: 1px solid #3e5468;
+  font-size: 21px;
+  padding-bottom: 3px;
+  margin-top:18px;
+}
+#balance-info .bal:first-of-type{
+  margin-top: 35px;
+}
+.bal{
+}
+.bal .currency{
+  float: right;
+  vertical-align: bottom;
+  font-size: 14px;
+}
+
+.bal .arr{
+  float: left;
+}
+
+#balance-info .btn-line{
+  width: 430px;
+  margin: 0 auto;
+  margin-top: 28px
+}
+
+#balance-info .btn{
+  width: 208px;
+}
+
+
+#transac form{
+  text-align: left;
+}
+
+#transac  .oplata-line{
+  width: 100%;
+  text-align: center;;
+  margin-top: 32px;
+}
+
+.oplata-line .block-type{
+  vertical-align: top;
+  width: 160px;
+  height:160px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  text-align: center;
+  background: #f3f6fa;
+  display: inline-block;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.oplata-line .block-type.selected{
+  background: #3d5972;
+  opacity: 1;
+  color:#fff;
+}
+
+.block-type img{
+  margin-top: 23px;
+  margin-bottom: 13px;
+  text-align: left;
+}
+
+.info-money-line{
+  position: relative;
+}
+
+.info-money-line p{
+  min-height: 40px;
+  font-size: 16px;
+  text-align: left;
+}
+#transac .info-money-line button.btn{
+  vertical-align: top;
+  position:absolute;
+  top:0;
+  right: 0;
+  margin: 0;
+}
+#transac-sttngs{
+  position: absolute;
+  top:12px;
+  right: 19px;
+
+}
+
+#transac-sttngs img, .ws{
+  -webkit-transition: transform 0.8s ease-out 0s;
+    -moz-transition: transform 0.8s ease-out 0s;
+    -o-transition: transform 0.8s ease-out 0s;
+    transition: transform 0.8s ease-out 0s;
+}
+
+#transac-sttngs img:hover, .ws:hover{
+  -moz-transform: rotate(360deg); /* Для Firefox */
+    -ms-transform: rotate(360deg); /* Для IE */
+    -webkit-transform: rotate(360deg); /* Для Safari, Chrome, iOS */
+    -o-transform: rotate(360deg); /* Для Opera */
+    transform: rotate(360deg);
+}
+
+#create-sfms{
+  height: 95px;
+  background: #fff;
+  position: relative;
+  line-height: 100px;
+}
+
+#create-sfms .create{
+  display: inline-block;
+  width: 49%;
+  font-size: 16px;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#create-sfms .create img{
+  vertical-align: middle;
+}
+
+#content .sfm{
+	font-size: 22px;
+}
+
+.frame-h{
+	font-size: 19px;
+}
+
+#reg form{
+	text-align: left;
+}
+
+#reg input, #log input,#transac input,.btn, #transac select{
+	height: 48px;
+}
+
+#reg input, #log input, #transac input, #transac select{
+	width: 255px;
+	background: transparent;
+	font-size: 15px;
+	border:none;
+	border-bottom: 1px solid #3e5468;
+}
+#transac select{
+  text-align: center;
+}
+#transac #transac-info{
+  display: inline-block;
+  font-size: 13px;
+}
+#transac input{
+  color:#000;
+}
+#reg label, #reg input, #reg button, #log label, #log input, #log button, #transac label, #transac input, #transac button, #transac-info{
+	margin-top: 18px;
+}
+
+.btn{
+  vertical-align: bottom;;
+	color: #fff;
+	font-size: 19px;
+	background: #3e5468;
+	border: none;
+	-webkit-transition: background 0.6s ease-out 0s;
+    -moz-transition: background 0.6s ease-out 0s;
+    -o-transition: background 0.6s ease-out 0s;
+    transition: background 0.6s ease-out 0s;
+}
+
+#transac form button.btn.half{
+  width: 167px;
+}
+
+#transac .btn{
+  vertical-align: top;
+}
+
+
+#reg .btn, #transac .btn, #transac-info{
+	width: 345px;
+}
+
+#log .btn{
+	margin-bottom: 18px;
+	width: 48.5%;
+}
+
+#log .btn:last-of-type{
+	margin-right: 0;
+}
+
+.btn:hover{
+	background: #d6e3f1;
+	color: #3e5468;
+}
+
+.lab{
+	position: relative;
+	margin-right: 45px;
+	vertical-align: middle;
+	display: inline-block;
+	line-height: 45px;
+	width: 48px;
+	height: 48px;
+	text-align: center;
+	background:#3e5468;
+	font-size: 15px;
+}
+
+#reg label, #transac label{
+	margin-right: 30px;
+}
+
+.lab img{
+	vertical-align: middle;
+}
+
+.lab:after{
+	content: '';
+    position: absolute; /* Абсолютное позиционирование */
+   /* Положение треугольника */
+   	left: 48px;
+   	top:0px;
+    border: 24px solid transparent;	border-left: 25px solid #3e5468 ;
+}
+
+#reg .label-focus, #log .label-focus, #transac .label-focus{
+	background: #d6e3f1;
+}
+
+#reg .label-focus:after, #log .label-focus:after, #transac .label-focus:after{
+	border-left: 25px solid #d6e3f1;
+}
+
+
+#reg #phone-inp, #reg #pass-inp{
+	margin-right: 25px;
+}
+
+#check{
+	text-align: right;
+	margin-top: 15px;
+	font-size: 15px;
+}
+
+#reg #rules-inp {
+	opacity: 0;
+	width: 23px;
+	height: 23px;
+	margin-top: none;
+	color: #fff;
+
+}
+#checkboxDiv{
+	display: inline-block;
+	vertical-align: bottom;
+	width: 23px;
+	height: 23px;
+}
+.checkboxOff{
+	background: url(../img/checkbox1.png) no-repeat 0px 0px;
+}
+
+.checkboxOn{
+	background: url(../img/checkbox1.png) no-repeat -23px 0px;
+}
+
+.social-log{
+	font-family: FreeSet;
+	padding: 34px 40px;
+	font-size: 19px;
+	background: #d6e3f1;
+	text-align: left;
+}
+
+.social-log span{
+	display: inline-block;
+	margin-right: 20px;
+}
+
+#about{
+	position: relative;
+}
+
+#about .triangle-down{
+	border-color: #edf2f7 transparent transparent transparent;
+}
+
+#phone-wallet{
+	margin-top: 60px;
+}
+
+#blog{
+	position: relative;
+	background: #d6e3f1;
+	padding: 55px 16% 55px 16%;
+}
+
+#blog #blog-line{
+	text-align: center;
+	margin-top: 35px;
+	margin-bottom: 75px;
+}
+
+#blog #blog-line .blog-elem{
+	margin-left: 0;
+	display: inline-block;
+	font-size: 15px;
+	width:12.5vw;
+	min-width: 150px;
+	max-width: 300px;
+	vertical-align: top;
+	text-align: left;
+}
+
+.blog-elem img{
+	width:100%;
+	margin-bottom: 20px;
+}
+
+#question-line{
+	text-align: center;
+	margin-top: 30px;
+}
+
+#question-line .question-elem{
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+.question-elem img{
+	vertical-align: middle;
+}
+
+.question-elem .question-text{
+	vertical-align: middle;
+	text-align: left;
+	margin-left: 20px;
+	width:14.33vw;
+	display: inline-block;
+	font-size: 15px;
+}
+
+#blog .triangle-down{
+	border-color: #d6e3f1 transparent transparent transparent;
+}
+
+#bottom{
+	padding: 60px 0 0px 0;
+	background: #3d5972;
+	position: relative;
+}
+
+#bottom .back-img{
+	width: 100%;
+	left: 0;
+	bottom: 0;
+}
+/* Адаптивность */
+
+#bottom .bot{
+	position: absolute;
+	display: inline-block;
+}
+#bottom .bot-bl{
+	vertical-align: top;
+	font-size: 14px;
+	color: #d7dbdf;
+	display: inline-block;
+	margin-right: 5vw;
+}
+
+#bottom .bot-bl:last-of-type{
+	margin-right: 0px;
+}
+
+#bottom .bot-bl li{
+	list-style-type: none;
+}
+
+.contacts{
+	margin-bottom: 14px;
+	line-height: 28px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 20px;
+	color: #d7dbdf;
+	float: right;
+}
+
+.contacts .social-con{
+	margin-top: 20px;
+	text-align: justify;
+}
+
+.social-con a{
+	margin-right: 20px;
+}
+
+.social-con img{
+	height: 30px;
+}
+
+#copyright-line{
+	background: #477298;
+	padding: 15px 0px 15px 16%;
+	color: #d7dbdf;
+}
+
+	#bot-info{
+		padding-right: 16%;
+		padding-left: 16%;
+		position: relative;
+	}
+	#apps{
+		position: relative;
+		padding: 0px 16% 0px 16%;
+		margin-top:25px;
+	}
+
+.widget-table{
+  width: 100%;
+  border:none;
+  margin-top: 50px;
+}
+.widget-line{
+  margin-bottom: 10px;
+}
+.widget-line:last-of-type{
+  margin-bottom: 0px;
+}
+
+.widget-place{
+  position: relative;
+  padding: 15px;
+  text-align: left;
+  display: inline-block;
+  background: #fff;
+  min-width: 385px;
+}
+
+.widget-place .ws{
+  position: absolute;
+  right: 15px;
+  top:15px;
+}
+.widget-place .widget-h{
+  text-align: left;
+  font-size: 17px;
+}
+
+.widget-h .w-log{
+  margin-right: 15px;
+  vertical-align: top;
+}
+.widget-h span{
+  vertical-align: middle;
+}
+
+.widget-body{
+  margin-top:50px;
+  font-size: 21px;
+}
+
+
+.wl{
+  position: relative;
+  border-bottom: 1px solid #3d5972;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+.widget-body .wl:last-of-type{
+  margin-bottom: 0;
+}
+
+.wl .money{
+  position: absolute;
+  right: 0;
+  font-size: 23px;
+}
+
+.wl .money .curr{
+  font-size: 16px;
+}
+
+.widget-detail{
+  text-align: center;
+}
+	.partners{
+		float: left;
+		display: inline-block;
+	}
+
+	.dwnlds{
+		position: absolute;
+		padding-left: 16%;
+		padding-right: 16%;
+		right: 0px;
+		top:190px;
+	}
+
+	.dwn{
+		display: inline-block;
+	}
+
+
+
+@media screen and (max-width: 1200px) {
+	#blog{
+		padding-left: 2%;
+		padding-right: 2%;
+	}
+
+	#blog #blog-line{
+		text-align: center;
+	}
+
+
+	#copyright-line{
+		padding-left: 2%;
+	}
+
+	#question-line{
+		text-align: center;
+	}
+
+	#bottom #bot-info{
+		padding-right: 2%;
+		padding-left: 2%;
+	}
+
+	.dwnlds{
+		padding-left: 2%;
+		padding-right: 2%;
+	}
+
+	header{
+		padding-left: 2%;
+		padding-right: 2%;
+	}
+
+}
+
+@media screen and (max-width: 850px) {
+	header{
+		padding: 20px 0px;
+	}
+
+	header .logo{
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+
+	}
+
+	header menu{
+		margin-top: 30px;
+		display: block;
+		float: none;
+		text-align: center;
+
+	}
+
+	.contacts{
+		margin-bottom: 70px;
+	}
+
+	#blog #blog-line .blog-elem{
+		width: 200px;
+		margin-bottom: 20px;
+	}
+
+	#question-line .question-elem{
+		display: block;
+		margin-bottom: 20px;
+		vertical-align: top;
+	}
+	.question-elem .question-text{
+		width: 270px;
+	}
+	.social-log span{
+		display: block;
+	}
+	#reg-frame{
+		width: 440px;
+	}
+
+	#reg input{
+		width: 255px;
+	}
+
+	#reg #phone-inp, #reg #pass-inp{
+		margin-right: 0;
+	}
+
+	#reg button
+	{
+		margin-top: 18px;
+		width: 98%;
+	}
+
+
+}
+
+@media screen and (max-width: 1000px) {
+
+  #content.cab-wrap{
+    padding: 0;
+  }
+
+  .widget-place{
+    width:355px;
+    min-width: 355px;
+  }
+}
+@media screen and (max-width: 670px) {}
+
+@media screen and (max-width: 600px) {
+	.social-log span{
+		display: block;
+	}
+
+
+
+}
+
+@media screen and (max-width: 450px) {
+
+	#reg label, #log label{
+		display: none;
+	}
+
+	#reg form, #log form{
+		text-align: center;
+	}
+
+}
