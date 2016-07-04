@@ -1,0 +1,23 @@
+<div id="reg" style="">
+
+        <p class="frame-h">создание нового аккаунта</p>
+        <form method="post" action="{% url 'registration' %}">{% csrf_token %}
+          <label for="phone-inp" class="lab"><img src="{{ STATIC_URL }}img/phone.png"></label>
+          <input type="phone"  placeholder="введите ваш номер телефона" id="phone-inp" name="phone" value="{{ form.phone.value }}">
+
+          <label for="email-inp" class="lab"><img src="{{ STATIC_URL }}img/email.png"></label>
+          <input type = "email" id="email-inp" placeholder="введите ваш email" name="email" value="{{ form.email.value }}">
+
+          <label for="pass-inp" class="lab"><img src="{{ STATIC_URL }}img/pass.png"></label>
+          <input type="password" id="pass-inp" placeholder="введите ваш пароль" name="password1">
+            <input type="password" id="pass-inp" placeholder="введите ваш пароль ещё раз" name="password2">
+          <button class="btn">регистрация</button>
+
+
+          <p id="check" style="margin-right:10px;">Я принимаю условия пользовательского соглашения
+          <span id="checkboxDiv" class="checkboxOff">
+          <input type="checkbox" id="rules-inp" style="margin-top:0;" name="accept_rules">
+          </span>
+          	</p>
+        </form>
+      </div>
