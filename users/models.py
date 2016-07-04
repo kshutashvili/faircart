@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         abstract = False
 
     phone = models.CharField(_('Phone'), max_length=16, unique=True,
-                validators=[validators.RegexValidator(regex=r'^\+\d{9,15}$')])
+                    validators=[validators.RegexValidator(r'^\+\d{9,15}$')])
     first_name = models.CharField(_('First name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last name'), max_length=30, blank=True)
     email = models.EmailField(_('Email address'), blank=True)
