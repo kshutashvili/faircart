@@ -1,12 +1,19 @@
 from __future__ import unicode_literals
+from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core import validators
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.template.loader import render_to_string
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin,
                                         BaseUserManager)
+
+from main.utils import get_random_hash
 
 
 class UserManager(BaseUserManager):
@@ -73,3 +80,60 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class EmailVerificationManager(models.Manager):
+    use_for_related_fields = True
+
+    def verifiable(self, *args, **kwargs):
+        kwargs['actual_till__gt'] = timezone.now()
+        kwargs['verified'] = None
+        return self.filter(*args, **kwargs)
+
+
+class EmailVerification(models.Model):
+    CODE_LEN = 96
+
+    class Meta:
+        verbose_name = _('Email verification code')
+        verbose_name_plural = _('Email verification codes')
+        ordering = ('-when_created',)
+
+    def __unicode__(self):
+        return '%s: %sverified' % (self.user.email,
+                                   '' if self.is_verified() else 'not ')
+
+    objects = EmailVerificationManager()
+
+    when_created = models.DateTimeField(_('When created'), auto_now_add=True)
+    user = models.ForeignKey(User, related_name='email_verifications',
+                             verbose_name=_('User'))
+    code = models.CharField(_('Code'), max_length=CODE_LEN,
+                            default=get_random_hash)
+    actual_till = models.DateTimeField(_('Actual till'),
+                    default=lambda: timezone.now() + timedelta(seconds=3600))
+    verified = models.DateTimeField(_('When verified'), blank=True, null=True)
+
+    def is_verified(self):
+        return bool(self.verified)
+
+    def is_actual(self):
+        return self.actual_till > timezone.now()
+
+    def set_verified(self):
+        self.verified = timezone.now()
+
+
+@receiver(post_save, sender=User)
+def on_user_created(sender, instance, created, **kwargs):
+    if not created:
+        return
+    EmailVerification.objects.create(user=instance)
+
+
+@receiver(post_save, sender=EmailVerification)
+def on_email_verification_created(sender, instance, created, **kwargs):
+    message = render_to_string('users/_verify_email_msg.html',
+                               context={'object': instance,
+                                        'site_url': settings.SITE_URL})
+    instance.user.email_user(_('Email verification'), message)

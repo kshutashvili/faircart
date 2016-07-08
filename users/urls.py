@@ -1,7 +1,7 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from users.views import RegView
+from users.views import RegView, VerifyEmailView
 
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout',
         kwargs={'next_page': '/'}),
     url(r'^create/$', RegView.as_view(), name='registration'),
+    url(r'^verify/email/$', VerifyEmailView.as_view(), name='verify_email'),
 ]
