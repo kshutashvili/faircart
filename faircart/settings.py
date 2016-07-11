@@ -86,6 +86,21 @@ DATABASES = {
     }
 }
 
+SMS_BACKEND = None
+SMS_BACKENDS = {'sms.backends.Twilio': {'account_sid': None,
+                                        'auth_token': None}}
+SMS_GLOBAL_OPTIONS = {'default_sender': '+79998887766'}
+SMS_BACKEND_OPTIONS = None
+
+def set_sms_backend(backend):
+    global SMS_BACKEND, SMS_BACKEND_OPTIONS
+    SMS_BACKEND_OPTIONS = SMS_GLOBAL_OPTIONS.copy()
+    SMS_BACKEND_OPTIONS.update(SMS_BACKENDS.get(backend) or {})
+    SMS_BACKEND = backend
+
+set_sms_backend('sms.backends.ConsoleBackend')
+
+
 AUTH_USER_MODEL = 'users.User'
 
 # Password validation

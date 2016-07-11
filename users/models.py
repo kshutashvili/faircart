@@ -14,6 +14,7 @@ from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin,
                                         BaseUserManager)
 
 from main.utils import get_random_hash
+from sms.utils import send_sms
 
 
 class UserManager(BaseUserManager):
@@ -80,6 +81,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def send_sms(self, msg, sender=None):
+        send_sms(msg, self.phone, sender=sender)
 
 
 class EmailVerificationManager(models.Manager):
