@@ -88,10 +88,9 @@ DATABASES = {
 
 SMS_BACKEND = 'sms.backends.ConsoleBackend'
 SMS_BACKENDS = {'sms.backends.Twilio': {'account_sid': None,
-                                        'auth_token': None}}
-SMS_GLOBAL_OPTIONS = {'default_sender': '+79998887766'}
-# It will be updated after import of the local settings
-SMS_BACKEND_OPTIONS = SMS_GLOBAL_OPTIONS.copy()
+                                        'auth_token': None,
+                                        'default_sender': '+15005550006'}}
+# SMS_BACKEND_OPTIONS will be selected after import of the local settings
 
 
 AUTH_USER_MODEL = 'users.User'
@@ -146,4 +145,4 @@ except ImportError:
     pass
 
 
-SMS_BACKEND_OPTIONS.update(SMS_BACKENDS.get(SMS_BACKEND) or {})
+SMS_BACKEND_OPTIONS = SMS_BACKENDS.get(SMS_BACKEND) or {}
