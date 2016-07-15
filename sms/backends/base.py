@@ -15,3 +15,8 @@ class ConsoleBackend(BaseBackend):
     def send(self, msg, to, sender=None):
         print self.tpl.format(sender=sender or self.default_sender,
                               to=to, msg=msg)
+
+
+class NullBackend(BaseBackend):
+    def send(self, msg, to, sender=None):
+        pass
