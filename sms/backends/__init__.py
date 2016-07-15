@@ -2,8 +2,6 @@ import importlib
 
 from django.conf import settings
 
-from sms.backends.base import ConsoleBackend
-
 
 def get_backend():
     """Returns new instance of the current SMS backend
