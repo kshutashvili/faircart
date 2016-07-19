@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+
+import random
 from datetime import timedelta
 
 from django.conf import settings
@@ -86,7 +88,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_sms(msg, self.phone, sender=sender)
 
 
-class EmailVerificationManager(models.Manager):
+class ContactVerificationManager(models.Manager):
     use_for_related_fields = True
 
     def verifiable(self, *args, **kwargs):
@@ -95,28 +97,62 @@ class EmailVerificationManager(models.Manager):
         return self.filter(*args, **kwargs)
 
 
-class EmailVerification(models.Model):
-    CODE_LEN = 96
+class ContactVerification(models.Model):
+    ACTUAL_PERIOD = 3600
 
     class Meta:
-        verbose_name = _('Email verification code')
-        verbose_name_plural = _('Email verification codes')
+        verbose_name = _('Verification code')
+        verbose_name_plural = _('Verification codes')
         ordering = ('-when_created',)
 
+    class TYPE:
+        EMAIL = 'email'
+        PHONE = 'phone'
+        _CHOICES = ((EMAIL, _('Email')),
+                    (PHONE, _('Phone')))
+        _LENGTH = {EMAIL: 96,
+                   PHONE: 6}
+        _ALL = (EMAIL, PHONE)
+
+    MIN_CODE_LEN = min(TYPE._LENGTH.itervalues())
+    MAX_CODE_LEN = max(TYPE._LENGTH.itervalues())
+
+    @classmethod
+    def get_actual_till(cls):
+        return timezone.now() + timedelta(seconds=cls.ACTUAL_PERIOD)
+
+    def __init__(self, *args, **kwargs):
+        super(ContactVerification, self).__init__(*args, **kwargs)
+        if not self.code:
+            self.code = self.generate_code()
+        if not self.actual_till:
+            self.actual_till = self.get_actual_till()
+
     def __unicode__(self):
-        return '%s: %sverified' % (self.user.email,
+        return '%s: %sverified' % (self.get_contact(),
                                    '' if self.is_verified() else 'not ')
 
-    objects = EmailVerificationManager()
+    objects = ContactVerificationManager()
 
     when_created = models.DateTimeField(_('When created'), auto_now_add=True)
-    user = models.ForeignKey(User, related_name='email_verifications',
+    user = models.ForeignKey(User, related_name='contact_verifications',
                              verbose_name=_('User'))
-    code = models.CharField(_('Code'), max_length=CODE_LEN,
-                            default=get_random_hash)
-    actual_till = models.DateTimeField(_('Actual till'),
-                    default=lambda: timezone.now() + timedelta(seconds=3600))
+    code = models.CharField(_('Code'), max_length=MAX_CODE_LEN)
+    actual_till = models.DateTimeField(_('Actual till'))
     verified = models.DateTimeField(_('When verified'), blank=True, null=True)
+    type = models.CharField(_('Type'), max_length=10, choices=TYPE._CHOICES,
+                            default=TYPE.PHONE)
+
+    def get_max_length(self):
+        return self.TYPE._LENGTH[self.type]
+
+    def generate_code(self):
+        if self.type == self.TYPE.PHONE:
+            length = self.get_max_length()
+            min_ = 10 ** (length - 1)
+            max_ = min_ * 10
+            return str(random.randint(min_, max_))
+        return get_random_hash()
 
     def is_verified(self):
         return bool(self.verified)
@@ -127,17 +163,35 @@ class EmailVerification(models.Model):
     def set_verified(self):
         self.verified = timezone.now()
 
+    def notify(self):
+        if self.type == self.TYPE.PHONE:
+            self.user.send_sms(_('Your verification code is %s') % self.code)
+        elif self.type == self.TYPE.EMAIL:
+            message = render_to_string('users/_verify_email_msg.html',
+                                       context={'object': self,
+                                                'site_url': settings.SITE_URL})
+            self.user.email_user(_('Email verification'), message)
+        return False
+
+    def get_contact(self):
+        return getattr(self.user, self.type)
+
 
 @receiver(post_save, sender=User)
 def on_user_created(sender, instance, created, **kwargs):
     if not created:
         return
-    EmailVerification.objects.create(user=instance)
+    verifications = []
+    for ctype in ContactVerification.TYPE._ALL:
+        if getattr(instance, ctype, None):
+            verifications.append(ContactVerification(user=instance,
+                                                     type=ctype))
+    ContactVerification.objects.bulk_create(verifications)
+    for ver in verifications:
+        ver.notify()
 
 
-@receiver(post_save, sender=EmailVerification)
-def on_email_verification_created(sender, instance, created, **kwargs):
-    message = render_to_string('users/_verify_email_msg.html',
-                               context={'object': instance,
-                                        'site_url': settings.SITE_URL})
-    instance.user.email_user(_('Email verification'), message)
+@receiver(post_save, sender=ContactVerification)
+def on_contact_verification_created(sender, instance, created, **kwargs):
+    if created:
+        instance.notify()

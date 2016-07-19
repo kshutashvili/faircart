@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% if form %}
+    <form method="post" id="verify_contact">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn">Submit</button>
+    </form>
+{% elif success %}
+    {% if ctype == 'email' %}Почта подтверждена
+    {% elif ctype == 'phone' %}Телефон подтверждён
+    {% else %}Контакт подтверждён{% endif %}
+{% else %}
+Не удалось подтвердить {% if ctype == 'email' %}почту{% elif ctype == 'phone' %}телефон{% else %}контакт{% endif %}.
+{% endif %}
+{% endblock %}

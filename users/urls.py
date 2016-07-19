@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from users.views import RegView, VerifyEmailView
+from users.views import RegView, VerifyContactView
+from users.models import ContactVerification
 
 
 urlpatterns = [
@@ -10,5 +11,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout',
         kwargs={'next_page': '/'}),
     url(r'^create/$', RegView.as_view(), name='registration'),
-    url(r'^verify/email/$', VerifyEmailView.as_view(), name='verify_email'),
+    url(r'^verify/(?P<ctype>(%s))/$' % '|'.join(ContactVerification.TYPE._ALL),
+        VerifyContactView.as_view(), name='verify_contact')
 ]

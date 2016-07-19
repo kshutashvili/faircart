@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from users.models import User, EmailVerification
+from users.models import User, ContactVerification
 from users.forms import UserCreationForm, UserChangeForm
 
 
@@ -82,11 +82,11 @@ class VerifiedFilter(admin.SimpleListFilter):
         return func(verified=None)
 
 
-class EmailVerificationAdmin(admin.ModelAdmin):
+class ContactVerificationAdmin(admin.ModelAdmin):
     list_display = ('when_created', 'user', 'actual_till', 'is_actual',
                     'is_verified')
     list_filter = [ActualFilter, VerifiedFilter]
 
     is_verified = boolfunc('is_verified')
     is_actual = boolfunc('is_actual')
-admin.site.register(EmailVerification, EmailVerificationAdmin)
+admin.site.register(ContactVerification, ContactVerificationAdmin)

@@ -90,6 +90,7 @@ SMS_BACKEND = 'sms.backends.ConsoleBackend'
 SMS_BACKENDS = {'sms.backends.Twilio': {'account_sid': None,
                                         'auth_token': None,
                                         'default_sender': '+15005550006'}}
+SMS_GLOBAL_OPTIONS = {'default_sender': '+79998887766'}
 # SMS_BACKEND_OPTIONS will be selected after import of the local settings
 
 
@@ -146,3 +147,5 @@ except ImportError:
 
 
 SMS_BACKEND_OPTIONS = SMS_BACKENDS.get(SMS_BACKEND) or {}
+for key, value in SMS_GLOBAL_OPTIONS.iteritems():
+    SMS_BACKEND_OPTIONS.setdefault(key, value)

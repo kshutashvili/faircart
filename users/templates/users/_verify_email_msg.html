@@ -1,1 +1,1 @@
-<p>Чтобы подтвердить доступ к указанной почте, перейдите <a href="{{ site_url }}{% url 'verify_email' %}#{{ object.code }}">по ссылке</a> или введите код {{ object.code }} по адресу {{ site_url }}{% url 'verify_email' %}.</p>
+<p>Чтобы подтвердить доступ к указанной почте, перейдите <a href="{{ site_url }}{% url 'verify_contact' 'email' %}#{{ object.code }}">по ссылке</a> или введите код {{ object.code }} по адресу {{ site_url }}{% url 'verify_contact' 'email' %}.</p>

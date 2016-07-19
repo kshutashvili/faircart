@@ -2,8 +2,8 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from users.forms import RegForm, EmailVerificationForm
-from users.models import EmailVerification
+from users.forms import RegForm, ContactVerificationForm
+from users.models import ContactVerification
 
 
 class RegView(FormView):
@@ -26,17 +26,20 @@ class RegView(FormView):
                                        status=400)
 
 
-class VerifyEmailView(LoginRequiredMixin, FormView):
+class VerifyContactView(LoginRequiredMixin, FormView):
+    template_name = 'users/verify_contact.html'
+    form_class = ContactVerificationForm
 
-    template_name = 'users/verify_email.html'
-    form_class = EmailVerificationForm
+    def get_context_data(self, **kwargs):
+        kwargs['ctype'] = self.kwargs['ctype']
+        return super(VerifyContactView, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
         code = form.cleaned_data['code']
         try:
-            code = self.request.user.email_verifications.verifiable()\
-                .get(code=code)
-        except EmailVerification.DoesNotExist:
+            code = self.request.user.contact_verifications.verifiable()\
+                .get(code=code, type=self.kwargs['ctype'])
+        except ContactVerification.DoesNotExist:
             status = 400
         else:
             code.set_verified()

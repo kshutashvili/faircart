@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (UserCreationForm as BaseUCrForm,
                                        UserChangeForm as BaseUChForm)
 from django.utils.translation import ugettext_lazy as _
-from users.models import User, EmailVerification
+from users.models import User, ContactVerification
 
 
 class UserCreationForm(BaseUCrForm):
@@ -24,7 +24,7 @@ class RegForm(UserCreationForm):
         fields = ['phone', 'email']
 
 
-class EmailVerificationForm(forms.Form):
-    code = forms.CharField(max_length=EmailVerification.CODE_LEN,
-                           min_length=EmailVerification.CODE_LEN,
+class ContactVerificationForm(forms.Form):
+    code = forms.CharField(min_length=ContactVerification.MIN_CODE_LEN,
+                           max_length=ContactVerification.MAX_CODE_LEN,
                            label=_('Code'))
