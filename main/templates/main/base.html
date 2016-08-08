@@ -122,32 +122,33 @@
     </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="{{ STATIC_URL }}js/jquery.maskedinput.min.js"></script>
-  <script type="text/javascript">
+  <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+  <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/extra/phone-codes/phone.js"></script>
+  <script src="{{ STATIC_URL }}js/input/readyphonemask.js"></script>
+    <script type="text/javascript">
 
   $(document).ready(function(){
 
     $("form input").each(function(index){
     	$(this).attr("plhd",$(this).attr("placeholder"));
-    })
+    });
 
-    $("#phone-inp").mask("+380 99 999 99 99");
-    $("#reg #phone-inp").mask("+380 99 999 99 99");
+    $("#phone-inp").inputmask("phone",{'autoUnmask':true,onUnMask: function(maskedValue, unmaskedValue) {
+    //do something with the value
+        var val = maskedValue.replace(/\(|\)|-/g,'');
+        return val}});
+    $("#reg #phone-inp").phonemask();
     $("button[name='reg']").on("click",function(){
       $("#log-frame").slideUp(600);
       $("#reg-frame").slideDown(800);
-      $("#phone-inp").mask("+380 99 999 99 99");
+      $("#phone-inp").phonemask();
     });
 
     $("#reg-frame .back").on("click", function(){
       $("#log-frame").slideDown(600);
       $("#reg-frame").slideUp(800);
-      $("#phone-inp").mask("+380 99 999 99 99");
-    })
-
-
-
-
+      $("#phone-inp").phonemask();
+    });
 
     $("form input, .vu").on("focus",function(){
       var id = $(this).attr("id");
