@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 
-SMS_BACKEND = 'sms.backends.ConsoleBackend'
+SMS_BACKEND = 'sms.backends.base.ConsoleBackend'
 SMS_BACKENDS = {'sms.backends.Twilio': {'account_sid': None,
                                         'auth_token': None,
                                         'default_sender': '+15005550006'}}
