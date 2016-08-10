@@ -1,7 +1,7 @@
 <div id="reg" style="">
 
         <p class="frame-h">создание нового аккаунта</p>
-        <form method="post" action="{% url 'registration' %}">{% csrf_token %}
+        <form id="regform" class="sendform"  method="post" action="{% url 'registration' %}">{% csrf_token %}
           <label for="phone-inp" class="lab"><img src="{{ STATIC_URL }}img/phone.png"></label>
           <input type="phone"  placeholder="введите ваш номер телефона" id="phone-inp" name="phone" value="{{ form.phone.value }}">
 

@@ -1,11 +1,11 @@
       <div id="log-frame">
         <div id="log">
           <p class="frame-h">вход</p>
-          <form method="post" action="{% url 'login' %}">{% csrf_token %}
+          <form id="loginform" class="sendform" method="post" action="{% url 'login' %}">{% csrf_token %}
             <label for="phone-inp" class="lab" data-inputmask="'alias': 'phone'"><img src="{{ STATIC_URL }}img/phone.png"></label>
             <input type="phone" class="vu" id="phone-inp" placeholder="введите номер телефона" name="username" value="{{ form.phone.value }}">
               <label for="pass-inp" class="lab"><img src="{{ STATIC_URL }}img/pass.png"></label>
-                <input type="password" id="pass-inp" placeholder="введите ваш пароль" name="password">
+              <input type="password" id="pass-inp" placeholder="введите ваш пароль" name="password">
               <button class="btn">вход</button>
           </form>
             {{ form.errors }}

@@ -125,67 +125,75 @@
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/extra/phone-codes/phone.js"></script>
   <script src="{{ STATIC_URL }}js/input/readyphonemask.js"></script>
-    <script type="text/javascript">
+  <script src="{{ STATIC_URL }}js/ui.js"></script>
+  <script type="text/javascript">
 
-  $(document).ready(function(){
+      $(document).ready(function(){
 
-    $("form input").each(function(index){
-    	$(this).attr("plhd",$(this).attr("placeholder"));
-    });
+          $('.sendform').submit(function (event) {
+              event.preventDefault();
+              $(this).ajaxSendForm();
+          });
 
-    $("#phone-inp").inputmask("phone",{'autoUnmask':true,onUnMask: function(maskedValue, unmaskedValue) {
-    //do something with the value
-        var val = maskedValue.replace(/\(|\)|-/g,'');
-        return val}});
-    $("#reg #phone-inp").phonemask();
-    $("button[name='reg']").on("click",function(){
-      $("#log-frame").slideUp(600);
-      $("#reg-frame").slideDown(800);
-      $("#phone-inp").phonemask();
-    });
+          $("form input").each(function(index){
+              $(this).attr("plhd",$(this).attr("placeholder"));
+              return false
+          });
 
-    $("#reg-frame .back").on("click", function(){
-      $("#log-frame").slideDown(600);
-      $("#reg-frame").slideUp(800);
-      $("#phone-inp").phonemask();
-    });
+          $("#phone-inp").inputmask("phone",{'autoUnmask':true,onUnMask: function(maskedValue, unmaskedValue) {
+              var val = maskedValue.replace(/\(|\)|-/g,'');
+              return val}});
 
-    $("form input, .vu").on("focus",function(){
-      var id = $(this).attr("id");
-      	$(this).css({"outline":"none","font-size":"24px"});
-      	$("label[for='"+id+"']").addClass("label-focus");
-      	str = $(this).attr("placeholder");
-      	$(this).attr("placeholder","")
+          $("#reg #phone-inp").phonemask();
 
-    });
+          $("button[name='reg']").on("click",function(){
+              $("#log-frame").slideUp(600);
+              $("#reg-frame").slideDown(800);
+              $("#phone-inp").phonemask();
+          });
 
-    $("#phone-inp, .vu").on("blur", function(){
-      if(!($(this).val())){
-      	$(this).attr("placeholder",$(this).attr("plhd"));
-      	$(this).css({"font-size":"15px"});
-  		}
-    })
-  $("form input").on("blur",function(){
-      var id = $(this).attr("id");
-      if(!($(this).val())){
-        $(this).css({"font-size":"15px"});
-      	$(this).attr("placeholder",$(this).attr("plhd"));
-      };
-      $("label[for='"+id+"']").removeClass("label-focus");
-    });
+          $("#reg-frame .back").on("click", function(){
+              $("#log-frame").slideDown(600);
+              $("#reg-frame").slideUp(800);
+              $("#phone-inp").phonemask();
+          });
 
-  $("#checkboxDiv").click(function(){
-  		if($(this).hasClass('checkboxOff')){
-  			$(this).removeClass('checkboxOff');
-  			$(this).addClass('checkboxOn');
-  		}
-  		else{
-  			$(this).removeClass('checkboxOn');
-  			$(this).addClass('checkboxOff');
-  		}
-  })
+          $("form input, .vu").on("focus",function(){
+              var id = $(this).attr("id");
+              $(this).css({"outline":"none","font-size":"24px"});
+              $("label[for='"+id+"']").addClass("label-focus");
+              str = $(this).attr("placeholder");
+              $(this).attr("placeholder","")
+          });
 
-  });
+          $("#phone-inp, .vu").on("blur", function(){
+              if(!($(this).val())){
+                  $(this).attr("placeholder",$(this).attr("plhd"));
+                  $(this).css({"font-size":"15px"});
+              }
+          });
+
+          $("form input").on("blur",function(){
+              var id = $(this).attr("id");
+              if(!($(this).val())){
+                  $(this).css({"font-size":"15px"});
+                  $(this).attr("placeholder",$(this).attr("plhd"));
+              };
+
+              $("label[for='"+id+"']").removeClass("label-focus");
+          });
+
+          $("#checkboxDiv").click(function(){
+              if($(this).hasClass('checkboxOff')){
+                  $(this).removeClass('checkboxOff');
+                  $(this).addClass('checkboxOn');
+              }
+              else{
+                  $(this).removeClass('checkboxOn');
+                  $(this).addClass('checkboxOff');
+              }
+          })
+      });
   </script>
   </body>
 </html>
