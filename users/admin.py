@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.core.exceptions import ImproperlyConfigured
 
 from users.models import User, ContactVerification
 from users.forms import UserCreationForm, UserChangeForm
@@ -64,13 +65,25 @@ class ActualFilter(admin.SimpleListFilter):
             return queryset.filter(actual_till__gt=timezone.now())
 
 
-class VerifiedFilter(admin.SimpleListFilter):
-    title = _('Is verified')
-    parameter_name = 'verified'
+class HasValueFilter(admin.SimpleListFilter):
+    lookup_pos_name = None
+    lookup_neg_name = None
+    field_name = None
+
+    def __init__(self, request, params, model, model_admin):
+        for attr in ('lookup_pos_name', 'lookup_neg_name'):
+            if getattr(self, attr) is None:
+                raise ImproperlyConfigured(
+                    "The list filter '%s' does not specify a '%s'."
+                        % (self.__class__.__name__, attr))
+        super(HasValueFilter, self).__init__(request, params, model,
+                                             model_admin)
+        if self.field_name is None:
+            self.field_name = self.parameter_name
 
     def lookups(self, request, model_admin):
-        return ((1, 'Verified'),
-                (0, 'Not verified'))
+        return ((1, self.lookup_pos_name),
+                (0, self.lookup_neg_name))
 
     def queryset(self, request, queryset):
         value = self.value()
@@ -79,7 +92,14 @@ class VerifiedFilter(admin.SimpleListFilter):
         except (ValueError, TypeError):
             return queryset
         func = queryset.filter if value == 0 else queryset.exclude
-        return func(verified=None)
+        return func(**{self.field_name: None})
+
+
+class VerifiedFilter(HasValueFilter):
+    title = _('Is verified')
+    parameter_name = 'verified'
+    lookup_pos_name = _('Verified')
+    lookup_neg_name = _('Not verified')
 
 
 class ContactVerificationAdmin(admin.ModelAdmin):
