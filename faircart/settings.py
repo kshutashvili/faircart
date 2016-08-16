@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'main',
     'users',
     'finance',
 ]
 
 MIDDLEWARE_CLASSES = [
+    'users.middleware.UserRedirectMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,6 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'faircart.wsgi.application'
 
@@ -140,6 +143,7 @@ LOGIN_REDIRECT_URL = '/'
 
 SITE_URL = 'http://127.0.0.1:8000'
 
+SITE_ID = 1
 
 try:
     from local_settings import *
@@ -150,3 +154,8 @@ except ImportError:
 SMS_BACKEND_OPTIONS = SMS_BACKENDS.get(SMS_BACKEND) or {}
 for key, value in SMS_GLOBAL_OPTIONS.iteritems():
     SMS_BACKEND_OPTIONS.setdefault(key, value)
+
+#Socialaccounts settings
+
+
+URL_LOGIN_REDIRECT = ('/users/login/','/users/create/')
