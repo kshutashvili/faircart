@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -62,54 +63,25 @@
     </header>
 
     <div id="content">{% block content %}{% endblock %}</div>
-
     <div id="bottom">
     <div id="bot-info">
       <div class="bot">
       <ul class="bot-bl">
           ГЛАВНОЕ
-          <li><a href="#">Компания Wallet One</a></li>
           <li><a href="#">Условия использования</a></li>
           <li><a href="#">Контакты</a></li>
-          <li><a href="#">Символика</a></li>
           <br>
           <br>
           <li><a href="#">наши партнеры</a></li>
-      </ul>
-      <ul class="bot-bl">
-          ИНФОРМАЦИЯ
-          <li><a href="#">Тарифы</a></li>
-          <li><a href="#">Пополнение</a></li>
-          <li><a href="#">Оплата услуг</a></li>
-          <li><a href="#">Вывод средств</a></li>
-      </ul>
-
-      <ul class="bot-bl">
-          ИНФОРМАЦИЯ
-          <li><a href="#">Тарифы</a></li>
-          <li><a href="#">Пополнение</a></li>
-          <li><a href="#">Оплата услуг</a></li>
-          <li><a href="#">Вывод средств</a></li>
       </ul>
       </div>
 
       <div class="contacts">
         <p>hello@sofastmoney.com</p>
         <p>8 800 700-78-77</p>
-        <p class="social-con">
-          <a href="#"><img src="{{ STATIC_URL }}img/fb-con.png"></a>
-          <a href="#"><img src="{{ STATIC_URL }}img/vk-con.png"></a>
-          <a href="#"><img src="{{ STATIC_URL }}img/twitter-con.png"></a>
-          <a href="#"><img src="{{ STATIC_URL }}img/linkedin-con.png"></a>
-        </p>
       </div>
     </div>
 
-    <div class="dwnlds">
-     	<div class="dwn"><img src="{{ STATIC_URL }}img/android-dwnld.png"></div>
-     	<div class="dwn"><img src="{{ STATIC_URL }}img/ios-dwnld.png"></div>
-     	<div class="dwn"><img src="{{ STATIC_URL }}img/wphone-dwnld.png"></div>
-    </div>
 
 
       <img src="{{ STATIC_URL }}img/bottom-img.png" class="back-img">
@@ -125,6 +97,7 @@
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
   <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/extra/phone-codes/phone.js"></script>
   <script src="{{ STATIC_URL }}js/input/readyphonemask.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.redirect.js"></script>
   <script src="{{ STATIC_URL }}js/ui.js"></script>
   <script type="text/javascript">
 

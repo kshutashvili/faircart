@@ -1,3 +1,4 @@
+
       <div id="log-frame">
         <div id="log">
           <p class="frame-h">вход</p>
@@ -10,13 +11,7 @@
           </form>
             {{ form.errors }}
             <button name="reg" class="btn">регистрация</button>
-          <p style="font-size:15px;">восстановление пароля</p>
+          <p style="font-size:15px;"><a href="{% url 'password_reset_request' %}">восстановление пароля</a></p>
         </div>
-        <div class="social-log">
-          <span>вход в аккаунт<br>
-через социальные сети</span>
-          <img src="{{ STATIC_URL }}img/fb-vh.png">
-          <img src="{{ STATIC_URL }}img/fb-vh.png">
-          <img src="{{ STATIC_URL }}img/fb-vh.png">
-      </div>
+
       </div>
