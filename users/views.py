@@ -1,9 +1,21 @@
+from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from users.forms import RegForm, ContactVerificationForm
 from users.models import ContactVerification
+
+
+class VerifiedPhoneRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        verifications = request.user.contact_verifications.verified(
+            type=ContactVerification.TYPE.PHONE
+        )
+        if verifications.count() == 0:
+            return render(request, 'users/verification_required.html')
+        return super(VerifiedPhoneRequiredMixin, self)\
+            .dispatch(request, *args, **kwargs)
 
 
 class RegView(FormView):
