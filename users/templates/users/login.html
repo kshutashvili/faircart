@@ -1,5 +1,9 @@
 {% extends 'main/base.html' %}
 {% block content %}
-    {% include 'main/_login_pass_form.html' %}
-    {% include 'main/_login_social_form.html' %}
+    {% if not request.user.is_authenticated %}
+        {% include 'main/_login_pass_form.html' %}
+        {% include 'main/_login_social_form.html' %}
+    {% else %}
+        {% include 'main/notavailable_msg.html'%}
+    {% endif %}
 {% endblock %}

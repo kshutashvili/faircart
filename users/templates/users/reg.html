@@ -1,4 +1,9 @@
 {% extends 'main/base.html' %}
+
 {% block content %}
-    {% include 'main/_reg_form.html' %}
+    {% if not user.is_authenticated %}
+        {% include 'main/_reg_form.html' %}
+    {% else %}
+        {% include 'main/notavailable_msg.html' %}
+    {% endif %}
 {% endblock %}
