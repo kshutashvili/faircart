@@ -96,6 +96,9 @@ class ContactVerificationManager(models.Manager):
         kwargs['verified'] = None
         return self.filter(*args, **kwargs)
 
+    def verified(self, *args, **kwargs):
+        return self.exclude(verified=None).filter(*args, **kwargs)
+
 
 class ContactVerification(models.Model):
     ACTUAL_PERIOD = 3600
