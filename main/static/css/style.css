@@ -141,6 +141,11 @@ header .triangle-down{
 	padding-bottom: 25px;
 }
 
+iframe.transfer {
+	border: none;
+	width: 100%;
+}
+
 #transac{
   position: relative;
   background: url(../img/transac-back.png);

@@ -1,0 +1,6 @@
+{% extends 'main/base.html' %}
+{% block title %}Требуется подтверждение номера телефона | {{ block.super }}{% endblock %}
+{% block content %}
+<p>Для доступа к ресурсу требуется подтверждение номера телефона.</p>
+<a href="{% url 'verify_contact' 'phone' %}" title="Подтвердить номер телефона" class="btn">Подтвердить сейчас</a>
+{% endblock %}
