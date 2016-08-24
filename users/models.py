@@ -87,6 +87,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_sms(self, msg, sender=None):
         send_sms(msg, self.phone, sender=sender)
 
+    def is_contact_verified(self, ctype):
+        if ctype not in ContactVerification.TYPE._ALL:
+            msg = 'Unknown contact type: %s; choices are: %s.'
+            raise ValueError(msg % (ctype,
+                                    ', '.join(ContactVerification.TYPE._ALL)))
+        try:
+            ContactVerification.objects.verified().get(type=ctype, user=self)
+        except ContactVerification.DoesNotExist:
+            return False
+        return True
+
 
 class ContactVerificationManager(models.Manager):
     use_for_related_fields = True
