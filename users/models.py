@@ -112,7 +112,7 @@ class ContactVerificationManager(models.Manager):
 
 
 class ContactVerification(models.Model):
-    ACTUAL_PERIOD = 3600
+    ACTUAL_PERIOD = 600
 
     class Meta:
         verbose_name = _('Verification code')
