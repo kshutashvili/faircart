@@ -1,0 +1,9 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<p>Код отправлен на {{ code.get_contact }} и действителен до {{ code.actual_till }}. Вы можете получить новый код после того, когда текущий станет неактуален.</p>
+<form method="post" id="verify_contact">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn">Отправить</button>
+</form>
+{% endblock %}

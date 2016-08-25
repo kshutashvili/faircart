@@ -1,0 +1,5 @@
+{% extends 'main/base.html' %}
+{% block title %}{{ title|default:"Сообщение" }} | {{ block.super }}{% endblock %}
+{% block content %}
+<p>{{ msg }}</p>
+{% endblock %}
