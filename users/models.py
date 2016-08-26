@@ -82,6 +82,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
+        if 'fail_silently' not in kwargs:
+            kwargs['fail_silently'] = not settings.DEBUG
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def send_sms(self, msg, sender=None):
