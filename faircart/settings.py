@@ -96,6 +96,10 @@ SMS_BACKENDS = {'sms.backends.Twilio': {'account_sid': None,
 SMS_GLOBAL_OPTIONS = {'default_sender': '+79998887766'}
 # SMS_BACKEND_OPTIONS will be selected after import of the local settings
 
+# Contact verification
+CONTACT_VERIF_TRIES = 3
+CONTACT_CODE_ACTUAL = 600  # 10 min
+
 
 AUTH_USER_MODEL = 'users.User'
 

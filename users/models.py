@@ -107,6 +107,7 @@ class ContactVerificationManager(models.Manager):
     def verifiable(self, *args, **kwargs):
         kwargs['actual_till__gt'] = timezone.now()
         kwargs['verified'] = None
+        kwargs['errors__lt'] = settings.CONTACT_VERIF_TRIES
         return self.filter(*args, **kwargs)
 
     def verified(self, *args, **kwargs):
@@ -114,7 +115,7 @@ class ContactVerificationManager(models.Manager):
 
 
 class ContactVerification(models.Model):
-    ACTUAL_PERIOD = 600
+    ACTUAL_PERIOD = settings.CONTACT_CODE_ACTUAL
 
     class Meta:
         verbose_name = _('Verification code')
@@ -158,6 +159,7 @@ class ContactVerification(models.Model):
     verified = models.DateTimeField(_('When verified'), blank=True, null=True)
     type = models.CharField(_('Type'), max_length=10, choices=TYPE._CHOICES,
                             default=TYPE.PHONE)
+    errors = models.PositiveIntegerField(_('Errors'), default=0, blank=True)
 
     def get_max_length(self):
         return self.TYPE._LENGTH[self.type]
@@ -169,6 +171,9 @@ class ContactVerification(models.Model):
             max_ = min_ * 10
             return str(random.randint(min_, max_))
         return get_random_hash()
+
+    def errors_left(self):
+        return max(0, settings.CONTACT_VERIF_TRIES - self.errors)
 
     def is_verified(self):
         return bool(self.verified)

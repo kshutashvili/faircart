@@ -76,8 +76,10 @@ class VerifyContactView(LoginRequiredMixin, View):
         if form.is_valid():
             if code.code == form.cleaned_data['code']:
                 code.set_verified()
-                code.save()
                 return render(self.request, 'users/verify_contact/result.html')
+            else:
+                code.errors += 1
+            code.save()
             form.add_error('code', 'No such code')
         return render(self.request, 'users/verify_contact/form.html',
                       {'form': form, 'code': code}, status=400)
