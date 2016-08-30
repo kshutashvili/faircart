@@ -172,7 +172,7 @@ class ContactVerification(models.Model):
             return str(random.randint(min_, max_))
         return get_random_hash()
 
-    def errors_left(self):
+    def tries_left(self):
         return max(0, settings.CONTACT_VERIF_TRIES - self.errors)
 
     def is_verified(self):
@@ -180,6 +180,9 @@ class ContactVerification(models.Model):
 
     def is_actual(self):
         return self.actual_till > timezone.now()
+
+    def is_verifiable(self):
+        return self.is_actual() and bool(self.tries_left())
 
     def set_verified(self):
         self.verified = timezone.now()

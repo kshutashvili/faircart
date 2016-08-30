@@ -4,12 +4,14 @@
 {% if code.errors %}
 {% load get_plural %}
 <p>
-    {% if code.errors_left == 1 %}Осталась{% else %}Осталось{% endif %} {{ code.errors_left|get_plural:'попытка,попытки,попыток' }}.
+    {% if code.tries_left == 1 %}Осталась{% else %}Осталось{% endif %} {{ code.tries_left|get_plural:'попытка,попытки,попыток' }}.
 </p>
 {% endif %}
+{% if code.is_verifiable %}
 <form method="post" id="verify_contact">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn">Отправить</button>
 </form>
+{% endif %}
 {% endblock %}

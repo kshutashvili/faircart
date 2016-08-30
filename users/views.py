@@ -43,43 +43,39 @@ class RegView(FormView):
 class VerifyContactView(LoginRequiredMixin, View):
     form_class = ContactVerificationForm
 
-    def get_code(self, **kwargs):
-        kwargs['type'] = self.kwargs['ctype']
-        kwargs['user'] = self.request.user
-        try:
-            return ContactVerification.objects.verifiable().get(**kwargs)
-        except ContactVerification.DoesNotExist:
-            return None
-
     def get(self, request, *args, **kwargs):
-        if request.user.is_contact_verified(self.kwargs['ctype']):
+        params = {'user': request.user,
+                  'type': self.kwargs['ctype']}
+        code = ContactVerification.objects.filter(**params)\
+            .order_by('actual_till').last()
+        if code is None or (not code.is_verified() and not code.is_actual()):
+            code = ContactVerification.objects.create(**params)
+        elif code.is_verified():
             return render(self.request, 'users/verify_contact/result.html')
-
-        code = self.get_code()
-        if not code:
-            code = ContactVerification.objects.create(
-                user=request.user,
-                type=self.kwargs['ctype']
-            )
         return render(self.request,
                       'users/verify_contact/form.html',
                       {'code': code, 'form': self.form_class()})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(data=self.request.POST)
-        code = self.get_code()
-        if code is None:
+        try:
+            code = ContactVerification.objects.verifiable().get(
+                user=request.user,
+                type=self.kwargs['ctype']
+            )
+        except ContactVerification.DoesNotExist:
             context = {'title': _('Contact validation'),
                        'msg': _('There is no any codes for this contact.')}
             return render(self.request, 'main/message.html', context,
                           status=400)
+
+        form = self.form_class(data=self.request.POST)
         if form.is_valid():
             if code.code == form.cleaned_data['code']:
                 code.set_verified()
+                code.save()
                 return render(self.request, 'users/verify_contact/result.html')
-            else:
-                code.errors += 1
+            code.errors += 1
             code.save()
-            form.add_error('code', 'No such code')
+            form.add_error('code', _('Unknown code'))
         return render(self.request, 'users/verify_contact/form.html',
                       {'form': form, 'code': code}, status=400)
